@@ -56,6 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text("Sign Up",
                               style: TextStyle(
@@ -63,14 +64,31 @@ class _SignupScreenState extends State<SignupScreen> {
                                   color: const Color(0xFF080C27),
                                   fontFamily: "Roboto",
                                   fontWeight: FontWeight.w600)),
-                          const TextFieldContainer(),
-                          const TextFieldContainer(),
-                          const TextFieldContainer(),
-                          const TextFieldContainer(),
+                          const TextFieldContainer(
+                            hintText: "Email",
+                            icon: Icons.email_outlined,
+                          ),
+                          const TextFieldContainer(
+                              hintText: "UserName",
+                              icon: Icons.person_outlined),
+                          const TextFieldContainer(
+                              hintText: "Password",
+                              icon: Icons.lock_person_outlined),
+                          const TextFieldContainer(
+                              hintText: "Confirm Password",
+                              icon: Icons.lock_person_outlined),
                           SizedBox(
                             height: 20.h,
                           ),
-                          CustomButton(text: "SIGN UP"),
+                          CustomButton(
+                            text: "SIGN UP",
+                            onPressed: () async {
+                              await Future.delayed(const Duration(seconds: 2));
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
                         ],
                       ),
                     ),
