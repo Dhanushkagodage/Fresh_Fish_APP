@@ -199,8 +199,7 @@ import 'package:fresh_fish_app/Screens/analysis_screen.dart';
 import 'package:fresh_fish_app/Widgets/custom_button.dart';
 
 class FisheyeUploader extends StatefulWidget {
-  final int pageCount; // Add a field to track the current page
-
+  final int pageCount; 
   const FisheyeUploader({super.key, this.pageCount = 1});
 
   @override
@@ -244,7 +243,7 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
                 scale: 60.sp,
               ),
               Text(
-                appBarTitles[widget.pageCount - 1], // Change title based on the page count
+                appBarTitles[widget.pageCount - 1], 
                 style: TextStyle(
                   fontSize: 20.sp,
                   color: const Color(0xFF080C27),
@@ -381,9 +380,9 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
                 onPressed: () async {
                   await Future.delayed(const Duration(seconds: 2));
 
-                  // Check if this is the last step
+                 
                   if (widget.pageCount < 3) {
-                    // Navigate to the next FisheyeUploader page with incremented pageCount
+                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -391,7 +390,7 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
                       ),
                     );
                   } else {
-                    // If it's the final step, navigate to the AnalysisScreen
+                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(
