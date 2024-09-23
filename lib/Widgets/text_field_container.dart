@@ -2,26 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextFieldContainer extends StatefulWidget {
-  const TextFieldContainer({super.key});
+  final String hintText;
+  final IconData icon;
+  const TextFieldContainer(
+      {super.key, required this.hintText, required this.icon});
 
   @override
   State<TextFieldContainer> createState() => _TextFieldContainerState();
 }
 
 class _TextFieldContainerState extends State<TextFieldContainer> {
+  bool _isObscured = true;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 20.sp),
       child: TextField(
+        obscureText: widget.hintText == "Password" ||
+                widget.hintText == "Confirm Password"
+            ? _isObscured
+            : false,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 2.h),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: 'Password',
+          hintText: widget.hintText,
           hintStyle: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.black,
+            color: Colors.black.withOpacity(0.5),
           ),
           prefixIcon: Container(
             width: 26.sp,
@@ -38,7 +47,7 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
                 ),
                 Center(
                   child: Icon(
-                    Icons.account_circle,
+                    widget.icon,
                     size: 20.sp,
                     color: Colors.black,
                   ),
@@ -46,13 +55,20 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
               ],
             ),
           ),
-          suffixIcon: IconButton(
-            icon: const Icon(
-              Icons.visibility_off,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
+          suffixIcon: widget.hintText == "Password" ||
+                  widget.hintText == "Confirm Password"
+              ? IconButton(
+                  icon: Icon(
+                    _isObscured ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                )
+              : null,
           filled: true,
           fillColor: Colors.grey.shade100,
           focusedBorder: OutlineInputBorder(

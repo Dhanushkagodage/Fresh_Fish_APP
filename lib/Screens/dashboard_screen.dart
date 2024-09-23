@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fresh_fish_app/Screens/fisheye_uploader.dart';
+import 'package:fresh_fish_app/Widgets/custom_button.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -12,55 +15,103 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.lightBlue.shade200,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Color(0xFF080C27),
-              size: 30,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          backgroundColor: Colors.lightBlue.shade300,
+          body: Stack(
             children: [
-              Image.asset(
-                "assets/splashlogo.png",
-                scale: 50,
+              SizedBox(
+                height: 300.h,
+                child: Center(
+                    child: Image.asset(
+                  "assets/logo.png",
+                  scale: 15,
+                )),
               ),
-              Text(
-                "FISH EYE UPLOADER",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Color(0xFF080C27),
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: EdgeInsets.only(top: 260.h),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.sp),
+                          topRight: Radius.circular(30.sp)),
+                      color: Colors.blue.shade50),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 40.sp, vertical: 30.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Dashboard",
+                            style: TextStyle(
+                                fontSize: 25.sp,
+                                color: const Color(0xFF080C27),
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.w600)),
+                        Text("Welcome!",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: const Color(0xFF080C27),
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.w400)),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Divider(
+                          color: Colors.blue.shade200,
+                          thickness: 2.sp,
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Upload images to analyze the quality of fish and receive expert insights on its freshness. Our tool ensures you make informed decisions, helping you choose the best fish for your needs",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: const Color(0xFF080C27).withOpacity(0.5),
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Divider(
+                              color: Colors.blue.shade200,
+                              thickness: 2.sp,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            CustomButton(
+                              text: "Get Started",
+                              onPressed: () async {
+                                await Future.delayed(
+                                    const Duration(seconds: 2));
+                                Navigator.push(
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FisheyeUploader(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
-          ),
-        ),
-        backgroundColor: Colors.blue.shade50,
-        body: Padding(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 250,
-                width: double.infinity,
-              ),
-            ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
