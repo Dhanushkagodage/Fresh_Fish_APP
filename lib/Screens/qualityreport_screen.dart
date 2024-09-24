@@ -136,7 +136,7 @@ class _QualityreportScreenState extends State<QualityreportScreen> {
                 text: "Back to Dashboard",
                 icon: Icons.dashboard_outlined,
                 onPressed: () async {
-                  await Future.delayed(Duration(seconds: 2));
+                  await Future.delayed(const Duration(seconds: 2));
                   Navigator.push(
                     // ignore: use_build_context_synchronously
                     context,
@@ -174,7 +174,7 @@ class _QualityreportScreenState extends State<QualityreportScreen> {
                 grade,
                 style: TextStyle(
                   fontSize: 20.sp,
-                  color: Color(0xFF080C27),
+                  color: const Color(0xFF080C27),
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.bold,
                 ),
@@ -196,7 +196,7 @@ class _QualityreportScreenState extends State<QualityreportScreen> {
                 gradevalue,
                 style: TextStyle(
                   fontSize: 20.sp,
-                  color: Color(0xFF080C27),
+                  color: const Color(0xFF080C27),
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.bold,
                 ),
