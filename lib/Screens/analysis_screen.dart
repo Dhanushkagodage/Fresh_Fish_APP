@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_fish_app/Screens/qualityreport_screen.dart';
 import 'package:fresh_fish_app/Widgets/custom_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -11,6 +12,37 @@ class AnalysisScreen extends StatefulWidget {
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
+  String fishEyeUrl = '';
+  String fishSkinUrl = '';
+  String fishGillsUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUrlsFromSharedPreferences();
+  }
+
+  Future<void> getUrlsFromSharedPreferences() async {
+    try {
+      final SharedPreferences localStorage =
+          await SharedPreferences.getInstance();
+
+      // Retrieve the URLs from SharedPreferences
+      setState(() {
+        fishEyeUrl = localStorage.getString('fish_eye_url') ?? '';
+        fishSkinUrl = localStorage.getString('fish_skin_url') ?? '';
+        fishGillsUrl = localStorage.getString('fish_gills_url') ?? '';
+      });
+
+      // Print the URLs for testing or debugging purposes
+      print("Fish Eye URL: $fishEyeUrl");
+      print("Fish Skin URL: $fishSkinUrl");
+      print("Fish Gills URL: $fishGillsUrl");
+    } catch (e) {
+      print("Error retrieving URLs from SharedPreferences: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,15 +91,15 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  _imagebox("assets/fish.jpg","FISH EYE"),
+                  _imagebox(fishEyeUrl, "FISH EYE"),
                   SizedBox(
                     height: 10.h,
                   ),
-                  _imagebox("assets/fish.jpg","FISH SKIN"),
+                  _imagebox(fishSkinUrl, "FISH SKIN"),
                   SizedBox(
                     height: 10.h,
                   ),
-                  _imagebox("assets/fish.jpg","FISH GILLS"),
+                  _imagebox(fishGillsUrl, "FISH GILLS"),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -92,7 +124,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     );
   }
 
-  Widget _imagebox(String image,String text) {
+  Widget _imagebox(String image, String text) {
     return Container(
       child: Column(
         children: [
@@ -148,7 +180,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             height: 150.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.asset(
+              child: Image.network(
                 image,
                 fit: BoxFit.cover,
               ),

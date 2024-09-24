@@ -12,6 +12,11 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
+  image_picker: ^1.1.1
+  cloudinary_public: ^0.23.1
+  shared_preferences: ^2.3.2
+  http: ^1.2.2
+
 
 dev_dependencies:
   flutter_test:
