@@ -49,6 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+
+              //Add your group name here
               Text(
                 "GroupName",
                 style: TextStyle(

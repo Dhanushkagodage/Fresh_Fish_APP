@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_fish_app/Screens/dashboard_screen.dart';
 import 'package:fresh_fish_app/Widgets/custom_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QualityreportScreen extends StatefulWidget {
   const QualityreportScreen({super.key});
@@ -49,15 +50,14 @@ class _QualityreportScreenState extends State<QualityreportScreen> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 30.sp, right: 30.sp, top: 20.h,bottom: 30.h),
+          padding: EdgeInsets.only(
+              left: 30.sp, right: 30.sp, top: 20.h, bottom: 30.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                //color: Colors.green,
                 child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -136,8 +136,11 @@ class _QualityreportScreenState extends State<QualityreportScreen> {
                 text: "Back to Dashboard",
                 icon: Icons.dashboard_outlined,
                 onPressed: () async {
+                  final SharedPreferences localStorage =
+                      await SharedPreferences.getInstance();
+                  localStorage.clear();
                   await Future.delayed(const Duration(seconds: 2));
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     // ignore: use_build_context_synchronously
                     context,
                     MaterialPageRoute(

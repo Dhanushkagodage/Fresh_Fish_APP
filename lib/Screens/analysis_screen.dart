@@ -35,11 +35,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       });
 
       // Print the URLs for testing or debugging purposes
-      print("Fish Eye URL: $fishEyeUrl");
-      print("Fish Skin URL: $fishSkinUrl");
-      print("Fish Gills URL: $fishGillsUrl");
+      // print("Fish Eye URL: $fishEyeUrl");
+      // print("Fish Skin URL: $fishSkinUrl");
+      // print("Fish Gills URL: $fishGillsUrl");
     } catch (e) {
-      print("Error retrieving URLs from SharedPreferences: $e");
+      //print("Error retrieving URLs from SharedPreferences: $e");
     }
   }
 
@@ -128,23 +128,6 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     return Container(
       child: Column(
         children: [
-          // Container(
-          //   width: 120.w,
-          //   height: 20.h,
-          //   decoration: BoxDecoration(
-          //     color: Colors.blue.shade200,
-          //     borderRadius: BorderRadius.circular(5.sp),
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       "FISH EYE",
-          //       style: TextStyle(
-          //           fontSize: 1.sp,
-          //           color: const Color(0xFF080C27),
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
           Row(
             children: [
               Expanded(
@@ -176,13 +159,25 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             height: 5.h,
           ),
           SizedBox(
-            width: 230.w,
-            height: 150.h,
+            width: 200.sp,
+            height: 150.sp,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(5.sp),
               child: Image.network(
                 image,
                 fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.network(image);
+                },
               ),
             ),
           ),

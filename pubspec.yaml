@@ -16,6 +16,7 @@ dependencies:
   cloudinary_public: ^0.23.1
   shared_preferences: ^2.3.2
   http: ^1.2.2
+  image_cropper: ^8.0.2
 
 
 dev_dependencies:
