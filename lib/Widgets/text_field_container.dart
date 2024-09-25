@@ -73,12 +73,12 @@ class _TextFieldContainerState extends State<TextFieldContainer> {
           fillColor: Colors.grey.shade100,
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xFF0D4065), width: 1),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.sp),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
                 color: Color.fromARGB(255, 174, 173, 173), width: 1),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.sp),
           ),
         ),
       ),

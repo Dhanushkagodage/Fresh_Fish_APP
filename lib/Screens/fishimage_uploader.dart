@@ -4,19 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_fish_app/Screens/analysis_screen.dart';
 import 'package:fresh_fish_app/Widgets/custom_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FisheyeUploader extends StatefulWidget {
+class FishImageUploader extends StatefulWidget {
   final int pageCount;
-  const FisheyeUploader({super.key, this.pageCount = 1});
+  const FishImageUploader({super.key, this.pageCount = 1});
 
   @override
-  State<FisheyeUploader> createState() => _FisheyeUploaderState();
+  State<FishImageUploader> createState() => _FishImageUploaderState();
 }
 
-class _FisheyeUploaderState extends State<FisheyeUploader> {
+class _FishImageUploaderState extends State<FishImageUploader> {
   List<String> appBarTitles = [
     "FISH EYE UPLOADER",
     "FISH SKIN UPLOADER",
@@ -32,23 +33,57 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
   Future<void> pickFromCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
+      File? croppedFile = await cropImage(pickedFile.path);
+      if (croppedFile != null) {
+        setState(() {
+          _image = croppedFile;
+        });
+      }
     }
   }
 
-  //pick an image from the gallery
+//pick an image from the gallery
   Future<void> pickFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
+      File? croppedFile = await cropImage(pickedFile.path);
+      if (croppedFile != null) {
+        setState(() {
+          _image = croppedFile;
+        });
+      }
     }
   }
 
-  //upload to cloud storage
+//crop the image
+  Future<File?> cropImage(String path) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatio: const CropAspectRatio(ratioX: 4, ratioY: 3),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Image',
+          backgroundColor: Colors.blue.shade50,
+          toolbarColor: Colors.blue.shade200,
+          toolbarWidgetColor: const Color(0xFF080C27),
+          hideBottomControls: true,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop Image',
+          resetAspectRatioEnabled: false,
+          aspectRatioLockEnabled: true,
+        ),
+      ],
+    );
+
+    if (croppedFile != null) {
+      return File(croppedFile.path);
+    }
+    return null;
+  }
+
+  //upload to cloud storage,add your cloudinary credentials
   Future<void> uploadImageToCloudinary(File image) async {
     final cloudinary = CloudinaryPublic('dxkaiqscs', 'myCloud', cache: false);
     try {
@@ -61,7 +96,7 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
         print('Image URL: $imageURL');
       });
     } catch (e) {
-      print('Error uploading image: $e');
+      _showErrorSnackbar("Failed to upload image. Please try again !");
     }
   }
 
@@ -88,10 +123,37 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
 
       await localStorage.setString(key, url);
       final savedUrl = localStorage.getString(key);
-      print("Saved URL: $savedUrl");
+     // print("Saved URL: $savedUrl");
     } catch (e) {
-      print("Error saving URL in SharedPreferences: $e");
+     // print("Error saving URL in SharedPreferences: $e");
     }
+  }
+
+  //error snackbar message
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10.w),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override
@@ -101,16 +163,16 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
         appBar: AppBar(
           backgroundColor: Colors.lightBlue.shade200,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Color(0xFF080C27),
-              size: 30,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(
+          //     Icons.arrow_back,
+          //     color: Color(0xFF080C27),
+          //     size: 30,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -132,10 +194,9 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
         ),
         backgroundColor: Colors.blue.shade50,
         body: Padding(
-          padding: EdgeInsets.only(
-              left: 30.sp, right: 30.sp, top: 15.h, bottom: 20.h),
+          padding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 20.h),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
@@ -143,8 +204,8 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
               ),
               _image == null
                   ? Container(
-                      height: 250.h,
-                      width: double.infinity,
+                      height: 225.sp,
+                      width: 300.sp,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10.sp),
@@ -175,9 +236,9 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
                     )
                   : Image.file(
                       _image!,
-                      height: 250.h,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                      height: 225.sp,
+                      width: 300.sp,
+                      fit: BoxFit.fill,
                     ),
               SizedBox(
                 height: 10.h,
@@ -257,22 +318,33 @@ class _FisheyeUploaderState extends State<FisheyeUploader> {
                 icon: Icons.drive_folder_upload,
                 onPressed: () async {
                   await Future.delayed(const Duration(seconds: 2));
-
-                  if (_image != null) {
-                    await uploadImageToCloudinary(_image!);
+                  if (_image == null) {
+                    _showErrorSnackbar(
+                        "Please upload an image related to fish ${imageTitles[widget.pageCount - 1]} !");
+                  } else if (_image != null) {
+                    try {
+                      await uploadImageToCloudinary(_image!);
+                    } catch (e) {
+                      _showErrorSnackbar(
+                          "Failed to upload image. Please try again !");
+                    }
                     if (imageURL.isNotEmpty) {
-                      await saveUrlToSharedPreferences(imageURL);
-
+                      try {
+                        await saveUrlToSharedPreferences(imageURL);
+                      } catch (e) {
+                        _showErrorSnackbar(
+                            "Failed to upload image. Please try again !");
+                      }
                       if (widget.pageCount < 3) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FisheyeUploader(
+                            builder: (context) => FishImageUploader(
                                 pageCount: widget.pageCount + 1),
                           ),
                         );
                       } else {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const AnalysisScreen(),

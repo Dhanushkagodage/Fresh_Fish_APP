@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fresh_fish_app/Screens/dashboard_screen.dart';
 import 'package:fresh_fish_app/Widgets/custom_button.dart';
 import 'package:fresh_fish_app/Widgets/text_field_container.dart';
 
@@ -84,6 +85,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             text: "SIGN UP",
                             onPressed: () async {
                               await Future.delayed(const Duration(seconds: 2));
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const DashboardScreen(),
+                                ),
+                              );
                             },
                           ),
                           SizedBox(
