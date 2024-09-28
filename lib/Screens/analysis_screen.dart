@@ -81,7 +81,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.h),
+            padding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
             child: Container(
               width: double.infinity,
               child: Column(
@@ -89,19 +89,19 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 10.h,
+                    height: 10.sp,
                   ),
                   _imagebox(fishEyeUrl, "FISH EYE"),
                   SizedBox(
-                    height: 10.h,
+                    height: 10.sp,
                   ),
                   _imagebox(fishSkinUrl, "FISH SKIN"),
                   SizedBox(
-                    height: 10.h,
+                    height: 10.sp,
                   ),
                   _imagebox(fishGillsUrl, "FISH GILLS"),
                   SizedBox(
-                    height: 10.h,
+                    height: 10.sp,
                   ),
                   CustomButton(
                     text: "Analyze",
@@ -127,6 +127,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   Widget _imagebox(String image, String text) {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -158,9 +159,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           SizedBox(
             height: 5.h,
           ),
-          SizedBox(
-            width: 200.sp,
-            height: 150.sp,
+          Container(
+            width: 180.sp,
+            height: 135.sp,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5.sp),
               child: Image.network(

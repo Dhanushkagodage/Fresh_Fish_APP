@@ -27,20 +27,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   scale: 15,
                 )),
               ),
-              AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Color(0xFF080C27),
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
+              // AppBar(
+              //   backgroundColor: Colors.transparent,
+              //   elevation: 0,
+              //   leading: IconButton(
+              //     icon: const Icon(
+              //       Icons.arrow_back,
+              //       color: Color(0xFF080C27),
+              //       size: 30,
+              //     ),
+              //     onPressed: () {
+              //       Navigator.pop(context);
+              //     },
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.only(top: 260.h),
                 child: Container(
@@ -59,12 +59,26 @@ class _SignupScreenState extends State<SignupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text("Sign Up",
-                              style: TextStyle(
-                                  fontSize: 25.sp,
-                                  color: const Color(0xFF080C27),
-                                  fontFamily: "Roboto",
-                                  fontWeight: FontWeight.w600)),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.blue.shade200,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 5.h),
+                              child: Text("Sign Up",
+                                  style: TextStyle(
+                                      fontSize: 25.sp,
+                                      color: const Color(0xFF080C27),
+                                      fontFamily: "Roboto",
+                                      fontWeight: FontWeight.w600)),
+                            ),
+                          ),
                           const TextFieldContainer(
                             hintText: "Email",
                             icon: Icons.email_outlined,
@@ -86,6 +100,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             onPressed: () async {
                               await Future.delayed(const Duration(seconds: 2));
                               Navigator.pushReplacement(
+                                // ignore: use_build_context_synchronously
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const DashboardScreen(),

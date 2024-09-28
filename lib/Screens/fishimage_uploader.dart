@@ -93,7 +93,7 @@ class _FishImageUploaderState extends State<FishImageUploader> {
       );
       setState(() {
         imageURL = response.secureUrl;
-        print('Image URL: $imageURL');
+        //print('Image URL: $imageURL');
       });
     } catch (e) {
       _showErrorSnackbar("Failed to upload image. Please try again !");
