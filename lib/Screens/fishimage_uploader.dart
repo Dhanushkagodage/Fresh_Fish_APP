@@ -123,7 +123,7 @@ class _FishImageUploaderState extends State<FishImageUploader> {
 
       await localStorage.setString(key, url);
       final savedUrl = localStorage.getString(key);
-     // print("Saved URL: $savedUrl");
+      print("Saved URL: $savedUrl");
     } catch (e) {
      // print("Error saving URL in SharedPreferences: $e");
     }
